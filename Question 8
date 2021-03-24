@@ -1,0 +1,59 @@
+# LR3_Question_8
+
+
+import numpy as np
+import matplotlib.pyplot as plt
+import Lab3Functions as l3f
+import EMGfunctions as emgf
+import pickle 
+
+column_names = ['emg', 't']
+
+
+# put three files all together
+weights, mvc, fatigue = l3f.import_data('\t')
+
+# removing the mean
+mvc_emgcorrectmean = emgf.remove_mean(mvc.emg, mvc.t/1000)
+weights_emg_correctmean = emgf.remove_mean(weights.emg, weights.t/1000)
+
+# pre-process of EMG data
+mvc_emg_filtered, mvc_emg_envelope = emgf.alltogether(mvc.t/1000, mvc_emgcorrectmean, low_pass=2, sfreq=1000, high_band=20, low_band=450 )
+weights_emg_filtered, weights_emg_envelope = emgf.alltogether(weights.t/1000, weights_emg_correctmean, low_pass=2, sfreq=1000, high_band=20, low_band=450 )
+
+
+# Burst (start & end)
+mvc_start = pickle.load(open("mvc_start.txt", "rb")) 
+mvc_end = pickle.load(open("mvc_end.txt", "rb")) 
+weights_start = pickle.load(open("weights_start.txt", "rb")) 
+weights_end = pickle.load(open("weights_end.txt", "rb")) 
+
+
+# Calculate mean MVC
+mean_mvc1 = np.mean(mvc_emg_envelope[mvc_start[0]:mvc_end[0]])
+mean_mvc2 = np.mean(mvc_emg_envelope[mvc_start[1]:mvc_end[1]])
+mean_mvc3 = np.mean(mvc_emg_envelope[mvc_start[2]:mvc_end[2]])
+
+mean_all_mvc = np.mean([mean_mvc1, mean_mvc2, mean_mvc3])
+
+# Calculate mean Weights
+mean_weights1 = np.mean(weights_emg_envelope[weights_start[0]:weights_end[0]])
+mean_weights2 = np.mean(weights_emg_envelope[weights_start[1]:weights_end[1]])
+mean_weights3 = np.mean(weights_emg_envelope[weights_start[2]:weights_end[2]])
+
+# Percentage to MVC
+weight_25_emg = mean_weights1/mean_all_mvc
+weight_50_emg = mean_weights2/mean_all_mvc
+weight_75_emg = mean_weights3/mean_all_mvc
+
+# Plot Relative Muscle Activation
+
+x = [13, 25, 40]
+
+y = [weight_25_emg, weight_50_emg, weight_75_emg]
+
+plt.figure()
+plt.plot(x, y, marker='o')
+plt.title('Question 7_Relative Muscle Activation')
+plt.xlabel('Weight/Resistence (lb)')
+plt.ylabel('% MVC')
