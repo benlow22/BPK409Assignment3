@@ -54,7 +54,7 @@ plt.ylabel('Power (a.u.)')
 plt.xlabel('Frequency (Hz)')
 plt.legend()
 
-# Fatigue 1 Middle
+    # Fatigue 1 Middle
 
 power, frequencies = l3f.get_power(arraymid1, 400)
 b2, a2 = sp.signal.butter(4, 0.08, btype='lowpass')
@@ -69,7 +69,7 @@ plt.title('Raw and Filtered Power Spectrum with Meadian Line')
 plt.ylabel('Power (a.u.)')
 plt.xlabel('Frequency (Hz)')
 
- #Fatigue 1 End
+    #Fatigue 1 End
 
 power, frequencies = l3f.get_power(arrayend1, 400)
 b2, a2 = sp.signal.butter(4, 0.08, btype='lowpass')
@@ -84,7 +84,7 @@ plt.title('Raw and Filtered Power Spectrum with Meadian Line')
 plt.ylabel('Power (a.u.)')
 plt.xlabel('Frequency (Hz)')
 
-#Fatigue 2
+    #Fatigue 2
 
 array2 = fatigue_emg_filtered[fatigue_start[1]:fatigue_end[1]]
 arraystart2 = array2[0:200]
@@ -136,7 +136,7 @@ plt.title('Raw and Filtered Power Spectrum with Meadian Line')
 plt.ylabel('Power (a.u.)')
 plt.xlabel('Frequency (Hz)')
     
-#Fatigue 3
+    #Fatigue 3
 
 array3 = fatigue_emg_filtered[fatigue_start[2]:fatigue_end[2]]
 arraystart3 = array3[0:200]
